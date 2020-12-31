@@ -14,6 +14,5 @@ async def start_command(message: types.Message):
             logging.info("Чат " + message.chat.title + " был добавлен в БД")
     except Exception:
         pass
-    await message.answer("Бот на стадии разработки. Если вы случайно нашли этого бота - ничего не трогайте, "
-                         "пж(если вам дал мой хозяин - разрешаю, ток будьте нежнее, это мой первый раз~~")
+    await message.answer("Привет, я могу помочь Вам искать нужное ранобэ. Так же буду уведомлять вам про выход новой главы~~")
     logging.info(str(message.from_user.username) + ' | ' + message.text)
