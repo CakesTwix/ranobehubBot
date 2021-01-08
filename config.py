@@ -66,6 +66,7 @@ async def initBot(dispatcher: Dispatcher):
         BotCommand("last", "Новые главы"),
         BotCommand("popular", "Популярное ранобэ"),
         BotCommand("search", "<*> Поиск ранобэ"),
+        BotCommand("favorites", "Избранное"),
     ])
     logging.info('Бот включен')
     asyncio.create_task(periodic())
