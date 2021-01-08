@@ -21,5 +21,8 @@ async def favorites_command(message: types.Message):
         favorites += f"[{i}] - {items.book_name}\n"
         i += 1
 
-    await message.answer(favorites, reply_markup=ListFavorites)
+    try:
+        await message.answer(favorites, reply_markup=ListFavorites)
+    except:
+        await message.answer("На данный момент у вас ничего нету в избранном.")
     logging.info(str(message.from_user.username) + ' | ' + message.text)
