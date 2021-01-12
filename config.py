@@ -45,7 +45,10 @@ async def periodic():
     data = await getLast()
     lastId = data[0]["id"]
     while True:
-        data = await getLast()
+        try:
+            data = await getLast()
+        except Exception as err:
+            logging.error(f"Невозможность проверить новые главы: {err}")
         if not data[0]["id"] == lastId:
             logging.info("Разные айдишники!")
             lastId = data[0]["id"]
