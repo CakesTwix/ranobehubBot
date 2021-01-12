@@ -18,7 +18,11 @@ async def check_callback_query(callback_query: types.CallbackQuery, callback_dat
     data = await searchID(callback_data["id"])
 
     caption = f'{data["names"]["rus"]} \n\n'
-    caption += f'Понравилось 👍: {data["rating"]} \n'
+    caption += f'Год: {data["year"]}\n'
+    caption += f'Статус: {data["status"]["title"]}\n'
+    caption += f'Понравилось 👍: {data["rating"]} \n\n'
+    caption += f'```{data["synopsis"]}```'
+
 
     RanobeMenu = InlineKeyboardMarkup(row_width=3)
     if engine.connect().execute(select(Subscribers).where(Subscribers.user_id == callback_query.from_user.id).where(
