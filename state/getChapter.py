@@ -14,6 +14,7 @@ class check(StatesGroup):
 
 
 giveMeChaptersData = CallbackData('Act', 'id', 'numVolume', 'action')
+telegraData = CallbackData('Act','id', 'action')
 
 
 @dp.callback_query_handler(subscribe.filter(action=['giveMeVolumes']))
@@ -39,6 +40,7 @@ async def giveMeChapters(callback_query: types.CallbackQuery, callback_data: Cal
         callback_query.message.chat.id, callback_query.message.message_id)
     await check.getChapter.set()
     data[0]["numVolume"] = int(callback_data["numVolume"])
+    data[0]["idRanobe"] = int(callback_data["id"])
     await state.set_data(data=data)
 
 
@@ -46,12 +48,17 @@ async def giveMeChapters(callback_query: types.CallbackQuery, callback_data: Cal
 async def giveMeChapter(message: types.Message, state: FSMContext):
     data = await state.get_data()
     Link = InlineKeyboardMarkup()
-    try:
-        Link.add(InlineKeyboardButton('Ссылка на главу',
-                                      url=data[int(data[0]["numVolume"])]["chapters"][int(message.text) - 1]["url"]))
-        await bot.send_message(message.chat.id, data[int(data[0]["numVolume"])]["chapters"][int(message.text) - 1]["name"],
-                               reply_markup=Link)
-        await state.finish()
-    except:
-        pass
+
+    Link.add(InlineKeyboardButton('Ссылка на главу',
+                                    url=data[int(data[0]["numVolume"])]["chapters"][int(message.text) - 1]["url"]))
+    Link.add(InlineKeyboardButton('Отправить сюда',
+                                    callback_data=telegraData.new(action='telegra', id=data[0]["idRanobe"])))
+    await bot.send_message(message.chat.id, data[int(data[0]["numVolume"])]["chapters"][int(message.text) - 1]["name"],
+                            reply_markup=Link)
     logger.info(f'{message.from_user.full_name}: Ссылка на главу')
+
+
+@dp.callback_query_handler(telegraData.filter(action=['telegra']))
+async def telegra_callback_query(callback_query: types.CallbackQuery, callback_data: CallbackData, state: FSMContext):
+    # callback_data["id"]
+    await bot.send_message(callback_query.message.chat.id, "В разработке.")
