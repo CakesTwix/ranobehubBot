@@ -4,7 +4,7 @@ from aiogram.types import (InlineKeyboardButton, InlineKeyboardMarkup)
 from aiogram.utils.callback_data import CallbackData
 from config import dp
 from loguru import logger as logging
-from  utils.API import getLast
+from  Utils.API import getLast
 
 subscribe = CallbackData('Act', 'id', 'action')
 

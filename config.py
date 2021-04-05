@@ -7,8 +7,8 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 import asyncio
 from loguru import logger as logging
-from utils.API import getLast, getVolumes
 from aiogram.types import (InlineKeyboardButton, InlineKeyboardMarkup)
+from Utils.API import getLast, getVolumes
 
 token = ''
 storage = MemoryStorage()

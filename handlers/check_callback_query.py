@@ -7,7 +7,7 @@ from aiogram.utils.callback_data import CallbackData
 from config import Subscribers, bot, dp, engine
 from loguru import logger as logging
 from sqlalchemy import select
-from utils.API import searchID
+from Utils.API import searchID
 
 subscribe = CallbackData('Act', 'id', 'action')
 getChapterData = CallbackData('Act', 'url', 'id', 'action')
