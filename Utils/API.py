@@ -19,16 +19,15 @@ async def getVolumes(id: int):
             return answer["volumes"]
 
 
-async def getLastFreeChapter(id: int):
+async def getChapterText(url: str):
     async with aiohttp.ClientSession() as session:
-        async with session.get('https://ranobehub.org/api/ranobe/' + str(id) + '/contents') as get:
-            answer = await get.json()
-            async with session.get(answer["volumes"][-1]["chapters"][-1]["url"]) as gibText:
-                text = await gibText.text()
-            soup = BeautifulSoup(text, features="lxml")
-            await session.close()
-            return dict(name=answer["volumes"][-1]["chapters"][-1]["name"],
-                        text=' '.join(map(str, soup.find('div', class_="__ranobe_read_container").findAll('p'))))
+        async with session.get('https://' + url) as gibText:
+            text = await gibText.text()
+        soup = BeautifulSoup(text, features="lxml")
+        await session.close()
+        array_text = soup.find('div', class_="__ranobe_read_container").findAll('p')
+        return dict(name=soup.find('h1', class_="ui header").getText(),
+                    text="\n".join(str(x) for x in array_text))
 
 
 async def getLast():
@@ -42,8 +41,8 @@ loop = asyncio.get_event_loop()
 
 
 async def main():
-    data = await searchID(153)
-    print(data["names"]["rus"])
+    data = await getChapterText('ranobehub.org/ranobe/34/1/1199')
+    print(data["text"])
 
 
 if __name__ == '__main__':
