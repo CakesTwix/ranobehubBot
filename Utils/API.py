@@ -25,7 +25,7 @@ async def getChapterText(url: str):
             text = await gibText.text()
         soup = BeautifulSoup(text, features="lxml")
         await session.close()
-        array_text = soup.find('div', class_="__ranobe_read_container").findAll('p')
+        array_text = soup.findAll('div', class_="ui text container")[1].findAll('p')
         return dict(name=soup.find('h1', class_="ui header").getText(),
                     text="\n".join(str(x) for x in array_text))
 
